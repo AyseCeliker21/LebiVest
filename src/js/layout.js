@@ -13,21 +13,32 @@ const LOGO = "/images/1780074650582.jpg";
 const WHATSAPP_NUMBER = "905521643855";
 
 const NAV_LINKS = [
-  { label: "Maison", href: "/index.html", match: ["/", "/index.html"] },
-  { label: "Collection", href: "/shop.html", match: ["/shop.html"] },
-  { label: "Women", href: "/shop.html?category=women" },
-  { label: "Men", href: "/shop.html?category=men" },
-  { label: "Atelier", href: "/about.html", match: ["/about.html"] },
+  { label: "Maison", href: "/", match: ["/", "/index.html"] },
+  { label: "Collections", href: "/collections", match: ["/collections", "/shop.html"] },
+  { label: "Women", href: "/collections?category=women" },
+  { label: "Men", href: "/collections?category=men" },
+  { label: "About", href: "/about", match: ["/about", "/about.html"] },
 ];
 
-const path = window.location.pathname.replace(/\/index\.html$/, "/");
-const isActive = (link) => (link.match || []).some((m) => m === path || m === window.location.pathname);
+function currentPath() {
+  const path = window.location.pathname.replace(/\/index\.html$/, "/");
+  if (path === "/shop.html") return "/collections";
+  if (path === "/about.html") return "/about";
+  return path;
+}
+
+const isActive = (link) => {
+  const path = currentPath();
+  const hrefPath = new URL(link.href, window.location.origin).pathname.replace(/\/$/, "") || "/";
+  if (link.match?.length) return link.match.some((m) => m === path || m === window.location.pathname);
+  return hrefPath === path;
+};
 
 /* ----------------------------- markup ----------------------------- */
 function navMarkup() {
   const desktopLinks = NAV_LINKS.map(
     (l) =>
-      `<a href="${l.href}" class="link-underline text-[0.72rem] tracking-[0.22em] uppercase ${
+      `<a href="${l.href}" data-nav-link class="link-underline text-[0.72rem] tracking-[0.22em] uppercase ${
         isActive(l) ? "opacity-100" : "opacity-70 hover:opacity-100"
       } transition-opacity">${l.label}</a>`
   ).join("");
@@ -45,12 +56,12 @@ function navMarkup() {
           <nav class="hidden md:flex items-center gap-8">${desktopLinks.slice(0, desktopLinks.length)}</nav>
         </div>
         <!-- center wordmark -->
-        <a href="/index.html" class="flex-1 text-center" aria-label="LEBIVEST home">
+        <a href="/" class="flex-1 text-center" aria-label="LEBIVEST home">
           <span class="font-serif tracking-[0.42em] text-lg md:text-2xl pl-[0.42em]">LEBIVEST</span>
         </a>
         <!-- right -->
         <div class="flex items-center gap-5 sm:gap-7 flex-1 justify-end">
-          <a href="/shop.html" class="hidden sm:inline-block link-underline text-[0.72rem] tracking-[0.22em] uppercase opacity-70 hover:opacity-100">Search</a>
+          <a href="/collections" class="hidden sm:inline-block link-underline text-[0.72rem] tracking-[0.22em] uppercase opacity-70 hover:opacity-100">Search</a>
           <button id="bag-open" aria-label="Open bag" class="relative flex items-center gap-2 text-[0.72rem] tracking-[0.22em] uppercase">
             <span class="hidden sm:inline">Bag</span>
             <span class="sm:hidden">${iconBag()}</span>
@@ -67,11 +78,11 @@ function navMarkup() {
 function menuMarkup() {
   const links = NAV_LINKS.map(
     (l, i) =>
-      `<a href="${l.href}" class="block font-serif text-[2.6rem] leading-tight font-light text-cream/90 hover:text-cream transition-colors"
+      `<a href="${l.href}" data-nav-link class="block font-serif text-[2.6rem] leading-tight font-light text-cream/90 hover:text-cream transition-colors"
          style="transition-delay:${60 + i * 45}ms">${l.label}</a>`
   ).join("");
   return `
-  <div id="mobile-menu" class="fixed inset-0 z-[60] md:hidden">
+  <div id="mobile-menu" class="fixed inset-0 z-[60] md:hidden invisible opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="menu-backdrop absolute inset-0 bg-ink/40" data-menu-close></div>
     <div class="menu-panel absolute inset-y-0 left-0 w-[84%] max-w-sm bg-ink text-cream flex flex-col">
       <div class="flex items-center justify-between h-[68px] px-5 border-b border-white/10">
@@ -88,7 +99,7 @@ function menuMarkup() {
 
 function drawerMarkup() {
   return `
-  <div id="bag-drawer" class="fixed inset-0 z-[70] pointer-events-none">
+  <div id="bag-drawer" class="fixed inset-0 z-[70] invisible opacity-0 pointer-events-none transition-opacity duration-300">
     <div class="drawer-backdrop absolute inset-0 bg-ink/45 backdrop-blur-[2px]" data-bag-close></div>
     <aside class="drawer-panel absolute top-0 right-0 h-full w-full max-w-[440px] bg-cream text-ink flex flex-col shadow-2xl pointer-events-auto">
       <div class="flex items-center justify-between px-7 h-[88px] border-b border-ink/10">
@@ -124,21 +135,21 @@ function footerMarkup() {
         </div>
         <div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-10">
           ${footerCol("Shop", [
-            ["Collection", "/shop.html"],
-            ["Women", "/shop.html?category=women"],
-            ["Men", "/shop.html?category=men"],
-            ["Signature Kilim", "/shop.html"],
+            ["Collections", "/collections"],
+            ["Women", "/collections?category=women"],
+            ["Men", "/collections?category=men"],
+            ["Signature Kilim", "/collections"],
           ])}
           ${footerCol("Maison", [
-            ["The Atelier", "/about.html"],
-            ["Craft & Kilim", "/about.html"],
-            ["Sustainability", "/about.html"],
+            ["The Atelier", "/about"],
+            ["Craft & Kilim", "/about"],
+            ["Sustainability", "/about"],
             ["Contact", "mailto:atelier@lebivest.com"],
           ])}
           ${footerCol("Client Care", [
-            ["Shipping", "/about.html"],
-            ["Returns", "/about.html"],
-            ["Size Guide", "/about.html"],
+            ["Shipping", "/about"],
+            ["Returns", "/about"],
+            ["Size Guide", "/about"],
             ["Appointments", "mailto:atelier@lebivest.com"],
           ])}
         </div>
@@ -226,7 +237,7 @@ function renderBag(state) {
       <div class="h-full min-h-[40vh] flex flex-col items-center justify-center text-center">
         <p class="font-serif text-3xl font-light">Your bag is empty</p>
         <p class="mt-3 text-sm text-stone max-w-[15rem]">Pieces you add will rest here, waiting.</p>
-        <a href="/shop.html" data-bag-close class="btn btn-dark mt-8">Explore the collection</a>
+        <a href="/collections" data-bag-close class="btn btn-dark mt-8">Explore the collection</a>
       </div>`;
     footerEl.innerHTML = "";
     return;
@@ -286,16 +297,36 @@ function renderBag(state) {
 
 /* ----------------------------- overlays ----------------------------- */
 export function openBag() {
+  const drawer = document.getElementById("bag-drawer");
+  if (drawer) {
+    drawer.classList.remove("invisible", "opacity-0", "pointer-events-none");
+    drawer.classList.add("opacity-100");
+  }
   document.body.classList.add("drawer-open", "overlay-lock");
 }
 export function closeBag() {
+  const drawer = document.getElementById("bag-drawer");
+  if (drawer) {
+    drawer.classList.remove("opacity-100");
+    drawer.classList.add("opacity-0", "pointer-events-none", "invisible");
+  }
   document.body.classList.remove("drawer-open");
   if (!document.body.classList.contains("menu-open")) document.body.classList.remove("overlay-lock");
 }
 function openMenu() {
+  const menu = document.getElementById("mobile-menu");
+  if (menu) {
+    menu.classList.remove("invisible", "opacity-0", "pointer-events-none");
+    menu.classList.add("opacity-100");
+  }
   document.body.classList.add("menu-open", "overlay-lock");
 }
-function closeMenu() {
+export function closeMenu() {
+  const menu = document.getElementById("mobile-menu");
+  if (menu) {
+    menu.classList.remove("opacity-100");
+    menu.classList.add("opacity-0", "pointer-events-none", "invisible");
+  }
   document.body.classList.remove("menu-open");
   if (!document.body.classList.contains("drawer-open")) document.body.classList.remove("overlay-lock");
 }
@@ -364,10 +395,53 @@ function wireReveal() {
   els.forEach((el) => io.observe(el));
 }
 
+export function refreshReveal(root = document) {
+  const els = root.querySelectorAll ? root.querySelectorAll(".reveal") : [];
+  if (!("IntersectionObserver" in window) || els.length === 0) {
+    els.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-visible");
+          io.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+  );
+  els.forEach((el) => io.observe(el));
+}
+
+export function syncNavigationState() {
+  const path = currentPath();
+  document.querySelectorAll("[data-nav-link]").forEach((link) => {
+    const href = new URL(link.getAttribute("href"), window.location.origin);
+    const hrefPath = href.pathname.replace(/\/$/, "") || "/";
+    let active = hrefPath === path;
+    if (hrefPath === "/collections") {
+      active = path === "/collections";
+    } else if (hrefPath === "/about") {
+      active = path === "/about";
+    } else if (hrefPath === "/") {
+      active = path === "/";
+    }
+    link.classList.toggle("opacity-100", active);
+    link.classList.toggle("opacity-70", !active);
+  });
+}
+
 /* ----------------------------- mount ----------------------------- */
 export function mountChrome() {
   document.body.insertAdjacentHTML("afterbegin", navMarkup());
   document.body.insertAdjacentHTML("beforeend", menuMarkup() + drawerMarkup() + footerMarkup());
+
+  const menu = document.getElementById("mobile-menu");
+  const drawer = document.getElementById("bag-drawer");
+  menu?.classList.add("invisible", "opacity-0", "pointer-events-none");
+  drawer?.classList.add("invisible", "opacity-0", "pointer-events-none");
 
   // bag open/close
   document.getElementById("bag-open")?.addEventListener("click", openBag);
@@ -403,4 +477,5 @@ export function mountChrome() {
   subscribe(renderBag);
   wireNavScroll();
   wireReveal();
+  syncNavigationState();
 }

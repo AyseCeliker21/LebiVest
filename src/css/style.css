@@ -28,6 +28,14 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+  main {
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  main.is-leaving {
+    opacity: 0;
+    transform: translateY(18px);
+  }
   body {
     background-color: #ffffff;
     color: var(--color-ink);
@@ -188,6 +196,13 @@
 }
 
 /* Cart drawer */
+#bag-drawer,
+#mobile-menu {
+  transition-property: opacity, visibility;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
+
 .drawer-panel {
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   transform: translateX(100%);

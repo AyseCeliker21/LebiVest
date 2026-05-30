@@ -15,7 +15,7 @@ if (!product) {
     <div class="min-h-[60vh] flex flex-col items-center justify-center text-center px-6">
       <p class="eyebrow text-stone">404</p>
       <h1 class="mt-4 font-serif text-4xl font-light">This piece could not be found</h1>
-      <a href="/shop.html" class="btn btn-dark mt-8">Return to the collection</a>
+      <a href="/collections" class="btn btn-dark mt-8">Return to the collection</a>
     </div>`;
 } else {
   document.title = `${product.name} — LEBIVEST`;
@@ -23,9 +23,9 @@ if (!product) {
 
   root.innerHTML = `
   <nav class="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-12 pt-28 md:pt-36 pb-6 text-[0.7rem] tracking-[0.18em] uppercase text-stone">
-    <a href="/index.html" class="hover:text-ink transition-colors">Maison</a>
+    <a href="/" class="hover:text-ink transition-colors">Maison</a>
     <span class="mx-2">/</span>
-    <a href="/shop.html?category=${product.category}" class="hover:text-ink transition-colors">${product.category === "men" ? "Men" : "Women"}</a>
+    <a href="/collections?category=${product.category}" class="hover:text-ink transition-colors">${product.category === "men" ? "Men" : "Women"}</a>
     <span class="mx-2">/</span>
     <span class="text-ink">${product.name}</span>
   </nav>
