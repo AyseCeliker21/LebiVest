@@ -1,3 +1,4 @@
+import "../css/style.css";
 import { closeBag, closeMenu, mountChrome, refreshReveal, syncNavigationState } from "./layout.js";
 import { addToBag } from "./ui.js";
 import { renderGrid } from "./ui.js";
