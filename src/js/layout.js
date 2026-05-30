@@ -10,7 +10,11 @@ const LOGO = "/images/1780074650582.jpg";
 
 // Orders are placed over WhatsApp (no backend on GitHub Pages).
 // International format, digits only — no "+", spaces or dashes.
-const WHATSAPP_NUMBER = "905521643855";
+const WHATSAPP_NUMBER = "905461532118";
+
+// Social — the LEBIVEST Instagram account.
+const INSTAGRAM_HANDLE = "lebivest";
+const INSTAGRAM_URL = `https://instagram.com/${INSTAGRAM_HANDLE}`;
 
 const NAV_LINKS = [
   { label: "Maison", href: "/", match: ["/", "/index.html"] },
@@ -132,6 +136,14 @@ function footerMarkup() {
             </div>
             <p data-newsletter-msg class="mt-3 text-[0.7rem] tracking-wide text-gold-soft h-4"></p>
           </form>
+          <div class="mt-9">
+            <span class="eyebrow text-cream/50">Follow the Maison</span>
+            <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer"
+              class="group mt-3 inline-flex items-center gap-3 border border-cream/25 rounded-full pl-4 pr-5 py-2.5 text-cream/85 hover:text-ink hover:bg-cream hover:border-cream transition-colors">
+              ${iconInstagram()}
+              <span class="text-sm tracking-wide">@${INSTAGRAM_HANDLE}</span>
+            </a>
+          </div>
         </div>
         <div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-10">
           ${footerCol("Shop", [
@@ -157,7 +169,7 @@ function footerMarkup() {
       <div class="mt-20 pt-8 border-t border-cream/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.66rem] tracking-[0.22em] uppercase text-cream/45">
         <span>© ${year} LEBIVEST — All rights reserved</span>
         <span class="flex gap-6">
-          <a href="#" class="hover:text-cream transition-colors">Instagram</a>
+          <a href="${INSTAGRAM_URL}" target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors">Instagram</a>
           <a href="#" class="hover:text-cream transition-colors">Pinterest</a>
           <a href="#" class="hover:text-cream transition-colors">Legal</a>
         </span>
@@ -185,6 +197,9 @@ function iconClose() {
 }
 function iconBag() {
   return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>`;
+}
+function iconInstagram() {
+  return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>`;
 }
 function iconWhatsApp() {
   return `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.8c2.17 0 4.2.85 5.74 2.38a8.06 8.06 0 0 1 2.38 5.73c0 4.47-3.64 8.11-8.12 8.11a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.12.82.83-3.04-.19-.31a8.05 8.05 0 0 1-1.24-4.27c0-4.48 3.64-8.11 8.12-8.11Zm-2.62 4.3c-.18 0-.46.07-.7.33-.24.26-.92.9-.92 2.2 0 1.3.94 2.55 1.07 2.72.13.18 1.85 2.82 4.49 3.96.63.27 1.11.43 1.49.55.63.2 1.2.17 1.65.1.5-.07 1.55-.63 1.77-1.24.22-.61.22-1.13.15-1.24-.06-.11-.24-.18-.5-.31-.26-.13-1.55-.76-1.79-.85-.24-.09-.42-.13-.59.13-.18.26-.68.85-.83 1.02-.15.18-.31.2-.57.07-.26-.13-1.1-.41-2.1-1.3-.78-.69-1.3-1.55-1.45-1.81-.15-.26-.02-.4.11-.53.12-.12.26-.31.39-.46.13-.16.18-.27.26-.44.09-.18.04-.33-.02-.46-.07-.13-.59-1.42-.81-1.94-.21-.51-.43-.44-.59-.45h-.5Z"/></svg>`;

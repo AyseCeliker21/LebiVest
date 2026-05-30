@@ -3,6 +3,7 @@ import { closeBag, closeMenu, mountChrome, refreshReveal, syncNavigationState } 
 import { addToBag } from "./ui.js";
 import { renderGrid } from "./ui.js";
 import { featured, formatPrice, getByCategory, getProductById, getRelated } from "./products.js";
+import { mountFilms } from "./films.js";
 
 const FALLBACK_ROUTE_KEY = "lebivest:pending-route";
 
@@ -100,6 +101,7 @@ function hydrateHome(root = document) {
   const railEl = root.querySelector("[data-rail]");
   if (railEl) renderGrid(railEl, getByCategory("women").slice(0, 6));
 
+  mountFilms(root);
   refreshReveal(root);
 }
 
